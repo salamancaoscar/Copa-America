@@ -10,6 +10,8 @@ create table confederaciones(
 create table tipos_evento(
     id int(50),
     nombre varchar(50));
+alter table tipos_evento
+add primary key (id);
 
 create table fases(
     id int(50),
@@ -81,6 +83,7 @@ create table personas(
    peso varchar(50),
    cargo varchar(50),
    categoria varchar(50));
+  alter table personas drop column cargo;
 
 create table posiciones(
     id int (50) primary key not null,
@@ -95,9 +98,66 @@ create table jugadores(
    	posicion_jugador int not null,
    	foreign key(posicion_jugador) references posiciones(id),
    	seleccion_id int not null,
-   	foreign key (seleccion_id) references selecciones(id));		  
+   	foreign key (seleccion_id) references selecciones(id));	
+   
+   
+ create table cuerpostecnicos(
+	 id int (50) primary key not null,
+	 seleccion_id int not null,
+	 foreign key(seleccion_id) references selecciones(id),
+	 persona_id  int not null,
+	 foreign key (persona_id) references personas(id),
+	 cargo varchar(50),categoria varchar(50));
+  
 
-alter table personas drop column cargo;
+create table arbitros(
+	id int (50) primary key not null,
+	id_persona int not null, 
+	foreign key(id_persona) references personas(id),
+	cargo varchar(50),
+	categoria varchar(50));
+
+
+create table arbitraje_partido(
+	arbitro int  not null,
+	foreign key(arbitro) references arbitros(id),
+	partido int not null,
+	foreign key(partido) references partidos (id));
+
+
+alter table arbitraje_partido 
+add  primary key (arbitro,partido);
+
+
+alter table asociaciones add foreign key(confederacion_id) references confederaciones(id);
+
+create table eventos_partido( 
+	id int (50) primary key not null,
+	jugador_id int not null,
+	foreign key (jugador_id) references jugadores(id),
+	minuto_ocurrencia int (50),
+	partido_id int not null,
+	foreign key (partido_id) references partidos(id));
+
+
+alter table eventos_partido add tipo_evento  int(50)not null; 
+alter table eventos_partido  add foreign key (tipo_evento)references tipos_evento(id);
+
+
+
+
+
+
+
+
+
+
+	
+
+   
+  
+   
+
 
 
 
