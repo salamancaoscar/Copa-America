@@ -22,7 +22,9 @@ create table paises(
     nombre varchar(50),
     capital varchar (50),
     ciudad_sede varchar(50),
-    anfitrion boolean );    
+    anfitrion boolean );   
+   
+   
 
 create table asociaciones (
     id int (50) not null,
@@ -50,6 +52,8 @@ create table selecciones(
     asociacion int not null,
      foreign key (asociacion)
      references asociaciones (id));
+    
+    alter table selecciones add grupo varchar(1);
 
 
 create table partidos(
@@ -84,7 +88,7 @@ create table personas(
    cargo varchar(50),
    categoria varchar(50));
   alter table personas drop column cargo;
-
+  alter table personas drop column categoria;
 create table posiciones(
     id int (50) primary key not null,
      nombre varchar(50));
@@ -107,8 +111,12 @@ create table jugadores(
 	 foreign key(seleccion_id) references selecciones(id),
 	 persona_id  int not null,
 	 foreign key (persona_id) references personas(id),
-	 cargo varchar(50),categoria varchar(50));
+	 cargo varchar(50),
+	|categoria varchar(50));
   
+	
+	ALTER TABLE copa_america.cuerpostecnicos DROP COLUMN categoria;
+
 
 create table arbitros(
 	id int (50) primary key not null,
@@ -116,6 +124,9 @@ create table arbitros(
 	foreign key(id_persona) references personas(id),
 	cargo varchar(50),
 	categoria varchar(50));
+
+ALTER TABLE copa_america.arbitros DROP COLUMN categoria;
+
 
 
 create table arbitraje_partido(
@@ -140,8 +151,14 @@ create table eventos_partido(
 	foreign key (partido_id) references partidos(id));
 
 
+create table cargos (
+id int(50)primary key not null,
+nombre varchar (50));
+
+
 alter table eventos_partido add tipo_evento  int(50)not null; 
 alter table eventos_partido  add foreign key (tipo_evento)references tipos_evento(id);
+
 
 
 
